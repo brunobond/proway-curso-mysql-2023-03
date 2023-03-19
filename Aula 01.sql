@@ -174,3 +174,27 @@ SELECT id, nome, data_nascimento
     WHERE
         YEAR(data_nascimento) >= 1990 AND
         YEAR(data_nascimento) <= 1999;
+
+-- OPERADOR LÓGICO OR
+-- Consultar os cursos com o nome C# ou Python
+ SELECT id, nome FROM cursos WHERE nome = "C#" OR nome = "Python";
+
+ -- Consultar os cursos com o nome C# ou Python ou Java
+SELECT id, nome FROM cursos WHERE nome IN ("C#", "Python", "Java");
+
+-- Consultar os cursos com o nome diferente de C# e Python e Java(sem NOT IN)
+SELECT id, nome FROM cursos WHERE nome != "C#" AND nome !="Python" AND nome !="Java";
+
+-- Consultar os cursos com o nome diferente de C# e Python e Java(com NOT IN)
+SELECT id, nome FROM cursos WHERE nome NOT IN ("C#", "Python", "Java") ;
+
+
+-- Consultar os cursos com carga horaria entre 40 e 45
+SELECT id, nome, carga_horaria 
+    FROM cursos
+    WHERE carga_horaria >= 40 AND carga_horaria <= 45; -- Sem BETWEEN
+
+SELECT id, nome, carga_horaria 
+    FROM cursos
+    WHERE carga_horaria BETWEEN 40 AND 45; -- Sem BETWEEN
+
