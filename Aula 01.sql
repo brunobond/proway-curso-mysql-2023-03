@@ -429,5 +429,54 @@ ALTER TABLE mercadorias MODIFY nome CHAR(75);
 -- Renomear coluna valor_unitario para preco_unitario da tabela de mercadorias
 ALTER TABLE mercadorias CHANGE valor_unitario preco_unitario FLOAT(5, 4);
 
+-- Renomear tabela de mercadorias para mercadorias_do_mercado
+ALTER TABLE mercadorias RENAME TO mercadorias_do_mercado;
+
+-- Criar coluna para a idade na tabela de alunos
+ALTER TABLE alunos ADD COlUMN idade TINYINT;
+
+-- Adicionar constraint de validação de idade, onde a idade deve ser maior ou igual a 14 anos
+ALTER TABLE alunos ADD CONSTRAINT CHECK_AlunoIdade CHECK (Idade >= 14);
+
+-- Inserir um aluno com 13 anos, não funciona pois a idade é < 14
+INSERT INTO alunos (nome, data_nascimento, idade) VALUES ('Pedro de Silva', '2009-01-01', 13);
+
+-- Inserir um aluno com 14
+INSERT INTO alunos (nome, data_nascimento, idade) VALUES ('Pedro de Silva', '2009-01-01', 14);
+
+-- SHOW CREATE TABLE alunos;
+-- CREATE TABLE `alunos` (
+--  `id` int NOT NULL AUTO_INCREMENT,
+--  `nome` varchar(100) NOT NULL,
+--  `data_nascimento` date DEFAULT NULL,
+-- `idade` tinyint DEFAULT NULL,
+-- PRIMARY KEY (`id`),
+--  CONSTRAINT `CHECK_AlunoIdade` CHECK ((`Idade` >= 14))
+
+ALTER TABLE alunos DROP CONSTRAINT CHECK_AlunoIdade;
+
+-- Adicionar coluna de cpf a tabela de professores
+ALTER TABLE professores ADD COLUMN cpf CHAR(14);
+
+-- Preencher o cpf dos professores
+UPDATE professores SET cpf = '531.465.650-72' WHERE id = 1;
+UPDATE professores SET cpf = '373.010.360-19' WHERE id = 2;
+UPDATE professores SET cpf = '578.629.670-97' WHERE id = 3;
+UPDATE professores SET cpf = '326.525.660-08' WHERE id = 4;
+UPDATE professores SET cpf = '474.368.310-62' WHERE id = 5;
 
 
+INSERT INTO professores (nome, valor_hora, cpf) VALUE('Luiz com z', 200.10, '606.689.490-07');
+INSERT INTO professores (nome, valor_hora, cpf) VALUE('Johana', 197.50, '474.368.310-62');
+
+-- Apagar a professora Johana pois a tabela n tinha validação de cpf único
+DELETE FROM professores WHERE id = 7;
+
+-- Adicionar validação de CPF único
+ALTER TABLE professores ADD CONSTRAINT UniqueProfessoresCpf UNIQUE (cpf);
+
+-- Tentar inserir o registro com CPF já cadastrado, não realizando o insert
+INSERT INTO professores (nome, valor_hora, cpf) VALUE ('Joana', 197.50, '474.368.310-62');
+
+-- Apagar a constraint de unique
+ALTER TABLE professores DROP CONSTRAINT UniqueProfessoresCpf;
